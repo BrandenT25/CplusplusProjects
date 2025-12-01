@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <sstream>
 /*
 int main(){
   
@@ -41,16 +42,17 @@ class todoList{
         class Task{
             public:
                 std::string taskDescription;
-                std::string dueDate;
+                std::string taskDueDate;
                 bool complete;
-                int id;
+                int taskId;
                 Task(std::string task, std::string dueDate, int id){
                     taskDescription = task;
-                    dueDate = dueDate;
+                    taskDueDate = dueDate;
                     complete = false;
-                    id = id;
+                    taskId = id;
                 }
         };
+
         std::vector<Task> tasks;
         
         void addTask(std::string task, std::string dueDate) {
@@ -58,15 +60,51 @@ class todoList{
             idIncrement += 1;
             tasks.push_back(newTask);
         }
+
+        void viewTasks(){
+            if (!tasks.empty()){
+                for (int i=0;i < tasks.size(); i++){
+                    std::cout << "Task Description:"  << tasks[i].taskDescription <<std::endl << "Due Date: " << tasks[i].taskDueDate << std::endl << "ID: " << tasks[i].taskId << std::endl << "Status: " << std::boolalpha << tasks[i].complete << std::endl << " " << std::endl ;
+                }
+            }else{
+                std::cerr << "There are no tasks to display";
+            }
+            std::cout << "--------------------------------------------------" << std::endl;
+        }
+        void deleteById(int id){
+            for (int i = 0; i < tasks.size(); i++){
+                    if (tasks[i].taskId == id){
+                        tasks.erase(tasks.begin() + i);
+                        break;
+                    } 
+                }
+            }
+        void completeTaskById(int id){
+            for (int i = 0; i < tasks.size(); i++){
+                if(tasks[i].taskId == id){
+                    tasks[i].complete = true;
+                }
+            }
+        }
+        void editTaskById(std::string task, int id){
+            for (int i = 0; i < tasks.size(); i++){
+                if(tasks[i].taskId == id){
+                    tasks[i].taskDescription = task;
+                }
+            }
+        }
+
+
 };
 
 
 int main(){ 
     todoList todoList1;
-    todoList1.addTask("Hellodsas", "1/12");
-    if (!todoList1.tasks.empty()){
-        std::cout << "first Task: " << todoList1.tasks[0].id;
-    }else{
-        std::cout << "there are not tasks";
-    }
+    todoList1.addTask("Task 1", "1/12");
+    todoList1.addTask("Task 2", "1/13");
+    todoList1.viewTasks();
+    todoList1.completeTaskById(1);
+    todoList1.viewTasks();
+    todoList1.editTaskById("Task 3", 0);
+    todoList1.viewTasks();
 }
