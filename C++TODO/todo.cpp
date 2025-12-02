@@ -92,11 +92,8 @@ class todoList{
             }
         }
         void editTaskById(std::string task, int id){
-            for (int i = 0; i < tasks.size(); i++){
-                if(tasks[i].taskId == id){
-                    tasks[i].taskDescription = task;
-                }
-            }
+            size_t index = idToIndex[id];
+            tasks[index].taskDescription = task;
         }
 
 
@@ -108,11 +105,6 @@ int main(){
     todoList1.addTask("Task 1", "1/12");
     todoList1.addTask("Task 2", "1/13");
     todoList1.viewTasks();
-    todoList1.deleteById(0);
-    todoList1.viewTasks();
-    todoList1.addTask("Do something", "1/5");
-    todoList1.addTask("Do something again", "1/6");
-    todoList1.viewTasks();
-    todoList1.deleteById(2);
+    todoList1.editTaskById("New Task", 0);
     todoList1.viewTasks();
 }
