@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <unordered_map>
 /*
 int main(){
   
@@ -36,6 +37,7 @@ int main(){
 class todoList{
     public:
         int idIncrement;
+        std::unordered_map<int, size_t> idToIndex;
         todoList(){
             idIncrement = 0;
         }
@@ -57,9 +59,11 @@ class todoList{
         
         void addTask(std::string task, std::string dueDate) {
             Task newTask(task, dueDate, idIncrement);
-            idIncrement += 1;
+            size_t index = tasks.size();
             tasks.push_back(newTask);
-        }
+            idToIndex[idIncrement] = index;
+            idIncrement += 1;
+                   }
 
         void viewTasks(){
             if (!tasks.empty()){
@@ -72,13 +76,14 @@ class todoList{
             std::cout << "--------------------------------------------------" << std::endl;
         }
         void deleteById(int id){
-            for (int i = 0; i < tasks.size(); i++){
-                    if (tasks[i].taskId == id){
-                        tasks.erase(tasks.begin() + i);
-                        break;
-                    } 
-                }
-            }
+          size_t index = idToIndex[id];
+          size_t lastIndex = tasks.size() - 1;
+          int swapId = tasks[lastIndex].taskId;
+          idToIndex[swapId] = index;
+          std::swap(tasks[index], tasks[lastIndex]);
+          tasks.pop_back();
+          idToIndex.erase(id);
+        }
         void completeTaskById(int id){
             for (int i = 0; i < tasks.size(); i++){
                 if(tasks[i].taskId == id){
@@ -103,8 +108,11 @@ int main(){
     todoList1.addTask("Task 1", "1/12");
     todoList1.addTask("Task 2", "1/13");
     todoList1.viewTasks();
-    todoList1.completeTaskById(1);
+    todoList1.deleteById(0);
     todoList1.viewTasks();
-    todoList1.editTaskById("Task 3", 0);
+    todoList1.addTask("Do something", "1/5");
+    todoList1.addTask("Do something again", "1/6");
+    todoList1.viewTasks();
+    todoList1.deleteById(2);
     todoList1.viewTasks();
 }
