@@ -42,18 +42,19 @@ class TodoList{
                    }
 
         void viewTasks(){
+            std::cout << std::endl << "--------------------------------------------------" << std::endl;
             if (!tasks.empty()){
                 for (int i=0;i < tasks.size(); i++){
                     std::cout << "Task Description:"  << tasks[i].taskDescription <<std::endl << "Due Date: " << tasks[i].taskDueDate << std::endl << "ID: " << tasks[i].taskId << std::endl << "Status: " << std::boolalpha << tasks[i].complete << std::endl << " " << std::endl ;
                 }
             }else{
-                std::cerr << "There are no tasks to display";
+                std::cout << "There are no tasks to display";
             }
             std::cout << "--------------------------------------------------" << std::endl;
         }
 void deleteById(int id){
           size_t index = idToIndex[id];
-          size_t lastIndex = tasks.size() - 1;
+    size_t lastIndex = tasks.size() - 1;
           int swapId = tasks[lastIndex].taskId;
           idToIndex[swapId] = index;
           std::swap(tasks[index], tasks[lastIndex]);
@@ -81,8 +82,32 @@ TodoList initList(){
   TodoList todoList;
   return(todoList);
 }
-  
-void userInputHandler(){
+void viewTodoList(TodoList todoList){
+    todoList.viewTasks();
+    int input;
+    while(true){
+        std::cout << "1. | Exit" << std::endl;
+        std::cin >> input;
+        if(input == 1){
+            break;
+        }else{
+            std::cout << "Please Enter a Valid input";
+        }
+    }
+}
+
+void editTodoList(TodoList todoList){
+    todoList.viewTasks();
+    int input;
+    while(true){
+        std::cout << "Please enter the id of the task you want to edit: "<< std::endl;
+        std::cin >> input;
+
+    }
+}
+
+
+void userInputHandler(TodoList todoList){
   while(true){
     int input;
 
@@ -90,10 +115,10 @@ void userInputHandler(){
     std::cin >> input;
     switch(input){
       case 1:
-        std::cout << "view function";
+        viewTodoList(todoList);
         break;
       case 2:
-        std::cout << "edit function";
+        editTodoList(todoList);
         break;
       case 3:
         std::cout << "complete function";
@@ -113,8 +138,9 @@ void userInputHandler(){
 
 
 int main(){ 
-    TodoList todoList1 = initList();
-    userInputHandler();
-    todoList1.addTask("Task 1", "1/12");
-    todoList1.addTask("Task 2", "1/13");
+    TodoList todoList = initList();
+    todoList.addTask("hello", "1/12");
+    userInputHandler(todoList);
+
 }
+
