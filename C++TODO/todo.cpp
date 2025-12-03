@@ -4,41 +4,17 @@
 #include <vector>
 #include <sstream>
 #include <unordered_map>
-/*
-int main(){
-  
-  std::ofstream outputFile("text.txt");
-
-
-  if (outputFile.is_open()){
-    outputFile << "First Line" << std::endl;
-    outputFile << "Second Line" << std::endl;
-
-    outputFile.close();
-
-  }else{
-    std::cerr << "Error Opening File" << std::endl;
-
-
-  }
-  return 0;
-
-}
- */
 
 
 
 
 
 
-
-
-
-class todoList{
+class TodoList{
     public:
         int idIncrement;
         std::unordered_map<int, size_t> idToIndex;
-        todoList(){
+        void todoList(){
             idIncrement = 0;
         }
         class Task{
@@ -75,7 +51,7 @@ class todoList{
             }
             std::cout << "--------------------------------------------------" << std::endl;
         }
-        void deleteById(int id){
+void deleteById(int id){
           size_t index = idToIndex[id];
           size_t lastIndex = tasks.size() - 1;
           int swapId = tasks[lastIndex].taskId;
@@ -95,16 +71,50 @@ class todoList{
             size_t index = idToIndex[id];
             tasks[index].taskDescription = task;
         }
+        
 
 
 };
 
 
+TodoList initList(){
+  TodoList todoList;
+  return(todoList);
+}
+  
+void userInputHandler(){
+  while(true){
+    int input;
+
+    std::cout << "==========================" << std::endl << "         Todo List         " << std::endl << "==========================" << std::endl << "1. | View Tasks" << std::endl << "2. | Edit Task" << std::endl << "3. | Complete Task" << std::endl << "4. | Delete Task" << std::endl << "5. | Save & Exit" << std::endl << std::endl <<  "--------------------------" << std::endl;
+    std::cin >> input;
+    switch(input){
+      case 1:
+        std::cout << "view function";
+        break;
+      case 2:
+        std::cout << "edit function";
+        break;
+      case 3:
+        std::cout << "complete function";
+        break;
+      case 4:
+        std::cout << "delete function";
+        break;
+      case 5:
+        std::cout << "save function";
+        break;
+
+
+
+    }    
+  }
+}
+
+
 int main(){ 
-    todoList todoList1;
+    TodoList todoList1 = initList();
+    userInputHandler();
     todoList1.addTask("Task 1", "1/12");
     todoList1.addTask("Task 2", "1/13");
-    todoList1.viewTasks();
-    todoList1.editTaskById("New Task", 0);
-    todoList1.viewTasks();
 }
